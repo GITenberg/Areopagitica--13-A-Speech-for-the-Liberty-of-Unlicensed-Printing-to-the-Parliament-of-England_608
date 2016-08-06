@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: qkWvcvf8e4hdSXNsuG14Kk1Xp5Ypa91rZ5ComcH5Jv4RbUwgzG4aRDJZ3UDuTTZrbu7kntZrWAEF1fgNxB5RDMHaylz5/Z0wzfkcTbQ9tkD7oa3xiy6j2F8e2w/uIvb5HdxmJlsxs66H8GjpbCwGwO3WW7aufsCcfQPQ365fRjtehmPx8u2QM+Nel3+FJGlDVScvTvw3IxXqcetwuA7gS9VnOlwhbXbol3Z5Ngm+LPvGG6dAyx32sugcWgTKQkKjjvNo6jx3+xS4XMKRziVnrWpTitfc+6tTISVUK1dlzITAKxvU5tS385KGTMxTTljPTzaSL0Vp8WPTg7zzUsMycZZvkNu19f2iHXpu1CtH1SjKwZtS84VPih1e9nrHXvIv5SdZCFMnqvAHDMm8HFROwTnZyG4sm+AnBPJfK3F3qa3LHjqon3o/ZbIWPUrkqYf08H19a1S9xziCvnfrD8CklRvDzvG4Fu9UPvC7i08pG0Qai/1JePXtB/XtgF0Y85C3f0LWt2cv+5UEgYvLRAE9EjyksetbnQVs03WhlQaVqXpTSVRAJ+PSO5AJjRtk83+79TKqfre+xSRmIIjcnKOtRa9Vlqf4GC+RS/ylvUW84WLXMfGKY0xIzJcdQFHQ3zGocXNrujKB6m9RPFXUK3l+3g9y+7+FSok6VkITSIkPySI=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/Areopagitica--13-A-Speech-for-the-Liberty-of-Unlicensed-Printing-to-the-Parliament-of-England_608
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
