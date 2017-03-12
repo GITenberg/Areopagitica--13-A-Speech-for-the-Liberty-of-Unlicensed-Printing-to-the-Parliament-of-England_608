@@ -1,5 +1,8 @@
 _repo: Areopagitica--13-A-Speech-for-the-Liberty-of-Unlicensed-Printing-to-the-Parliament-of-England_608
-_version: 0.1.0
+_version: 0.2.0
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Milton, John
@@ -17,6 +20,8 @@ description: "Areopagitica; A speech of Mr. John Milton for the Liberty of Unlic
   \ ever written – and as one of the most influential, because many of its expressed\
   \ principles have formed the basis for modern justifications.\n From Wikipedia (CC\
   \ BY-SA)."
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/608#Areopagitica--13-A-Speech-for-the-Liberty-of-Unlicensed-Printing-to-the-Parliament-of-England
 gutenberg_bookshelf:
 - Harvard Classics
 - Banned Books from Anne Haight's list
